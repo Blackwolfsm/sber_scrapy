@@ -11,3 +11,7 @@ ROBOTSTXT_OBEY = True
 
 FEED_FORMAT = 'csv'
 FEED_URI = 'buildings.csv'
+
+ITEM_PIPELINES = {
+    'testing_task.pipelines.StatusBuildPipeline': 200,
+}
