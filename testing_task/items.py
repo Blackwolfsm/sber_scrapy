@@ -2,6 +2,7 @@ import scrapy
 
 
 class BuildItem(scrapy.Item):
+    id_from_site = scrapy.Field()
     adress = scrapy.Field()
     status = scrapy.Field()
     num_apartments = scrapy.Field()

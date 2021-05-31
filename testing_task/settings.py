@@ -1,3 +1,9 @@
+import logging
+from logging.handlers import RotatingFileHandler
+
+from scrapy.utils.log import configure_logging
+
+
 BOT_NAME = 'testing_task'
 
 SPIDER_MODULES = ['testing_task.spiders']
@@ -13,5 +19,6 @@ FEED_FORMAT = 'csv'
 FEED_URI = 'buildings.csv'
 
 ITEM_PIPELINES = {
-    'testing_task.pipelines.StatusBuildPipeline': 200,
+    'testing_task.pipelines.StatusBuildPipeline': 1,
+    'testing_task.pipelines.ProcentSaleBuildPipeline': 2
 }
