@@ -6,6 +6,9 @@ from itemadapter import ItemAdapter
 
 
 class EmptyFieldsPipeline:
+    """Ищет в элементе поля с None, если находит, то
+       генерирует ошибку в лог.
+    """
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         if None in adapter.values():
@@ -15,6 +18,7 @@ class EmptyFieldsPipeline:
 
 
 class StatusBuildPipeline:
+    """Обрабатывает поле status для удобства чтения."""
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         if adapter['status'] == 0:
@@ -30,6 +34,9 @@ class StatusBuildPipeline:
 
 
 class ProcentSaleBuildPipeline:
+    """Если у новостройки статус Строится, то пытается обработать
+       поле 'распроданность квартир' для отображения в %.
+    """
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         if adapter['status'] == 'Строится':

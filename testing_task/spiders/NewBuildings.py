@@ -11,7 +11,6 @@ from scrapy.http.response.html import HtmlResponse
 
 from testing_task.items import BuildItem
 
-
 OBJECTS_URL = ('https://xn--80az8a.xn--d1aqf.xn--p1ai/%D1%81%D0%B5%D1%80%'
                'D0%B2%D0%B8%D1%81%D1%8B/api/kn/object?offset={collect}'
                '&limit=100')
@@ -20,6 +19,8 @@ CHECK_BUILD_URL = 'http://наш.дом.рф/сервисы/проверка_н�
 
 
 class NewbuildingsSpider(scrapy.Spider):
+    """Паук для парсинга новостроек сайта наш.дом.рф"""
+
     def __init__(self, *args, **kwargs):
         logger = logging.getLogger('scrapy')
         logger.setLevel(logging.INFO)
@@ -30,6 +31,10 @@ class NewbuildingsSpider(scrapy.Spider):
     start_urls = [OBJECTS_URL.format(collect=0)]
 
     def parse(self, response, collect: int=None):
+        """Основная функция парсинга, извлекает данные в BuildItem, 
+           если обнаруживает стройку со статусом '0'(Строится), то
+           запускает дополнительный парсинг для элемента.
+        """
         collect = collect or 0
         data_json = self.response_to_json(response)
         total = data_json.get('data', {}).get('total')
@@ -59,6 +64,9 @@ class NewbuildingsSpider(scrapy.Spider):
             yield request
     
     def parse_check_house(self, response, item):
+        """Парсит страницу проверки новостройки, добавляет 
+           данные в item.
+        """
         data = self.load_data(response)
         data = self.load_json(data)
         card = (data

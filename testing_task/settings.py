@@ -1,9 +1,3 @@
-import logging
-from logging.handlers import RotatingFileHandler
-
-from scrapy.utils.log import configure_logging
-
-
 LOG_ENABLE = True
 LOG_FILE = 'logs.log'
 
@@ -12,6 +6,8 @@ BOT_NAME = 'testing_task'
 SPIDER_MODULES = ['testing_task.spiders']
 NEWSPIDER_MODULE = 'testing_task.spiders'
 
+RETRY_TIMES = 5
+AUTOTHROTTLE_ENABLED = True
 
 ROBOTSTXT_OBEY = True
 
