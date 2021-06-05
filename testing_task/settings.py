@@ -15,7 +15,7 @@ FEED_FORMAT = 'csv'
 FEED_URI = 'buildings.csv'
 
 ITEM_PIPELINES = {
-    'testing_task.pipelines.EmptyFieldsPipeline': 100,
-    'testing_task.pipelines.StatusBuildPipeline': 200,
-    'testing_task.pipelines.ProcentSaleBuildPipeline': 300
+    'testing_task.pipelines.EmptyFieldsPipeline': 300,
+    'testing_task.pipelines.StatusBuildPipeline': 100,
+    'testing_task.pipelines.ProcentSaleBuildPipeline': 200
 }

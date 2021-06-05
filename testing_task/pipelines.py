@@ -11,9 +11,19 @@ class EmptyFieldsPipeline:
     """
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
-        if None in adapter.values():
-            logging.warning(f'При обработке записи обнаруженно '
-                          f'пустое поле \n{item!r}')
+        find_none = 0
+        for key, value in adapter.items():
+            if value == None:
+                adapter[key] = 'NULL'
+                find_none += 1
+        if find_none:
+            if find_none == 1:
+                text = (f'При обработке записи обнаруженно '
+                        f'пустое поле \n{item!r}')
+            else:
+                text = (f'При обработке записи обнаруженны '
+                        f'пустые поля \n{item!r}')
+            logging.warning(text)
         return item
 
 
@@ -29,12 +39,12 @@ class StatusBuildPipeline:
             adapter['status'] = 'Проблемный'
         else:
             logging.warning(f'У новостройки с id {item["id_from_site"]} '
-                          f'неизвестный статус = {item["status"]}.')
+                            f'неизвестный статус = {item["status"]}.')
         return item
 
 
 class ProcentSaleBuildPipeline:
-    """Если у новостройки статус Строится, то пытается обработать
+    """Если у новостройки статус 'Строится', то пытается обработать
        поле 'распроданность квартир' для отображения в %.
     """
     def process_item(self, item, spider):

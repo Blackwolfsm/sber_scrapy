@@ -56,12 +56,15 @@ class NewbuildingsSpider(scrapy.Spider):
                 yield request
 
             else:
+                item['sale_apartments'] = 'NULL'
+                item['avg_price'] = 'NULL'
+                item['kadastr_nums'] = 'NULL'
                 yield item
-        if collect < total:
-            request = Request(url=OBJECTS_URL.format(collect=collect),
-                              callback=self.parse,
-                              cb_kwargs=dict(collect=collect))
-            yield request
+        # if collect < total:
+        #     request = Request(url=OBJECTS_URL.format(collect=collect),
+        #                       callback=self.parse,
+        #                       cb_kwargs=dict(collect=collect))
+        #     yield request
     
     def parse_check_house(self, response, item):
         """Парсит страницу проверки новостройки, добавляет 
