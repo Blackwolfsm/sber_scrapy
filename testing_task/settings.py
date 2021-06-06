@@ -19,3 +19,7 @@ ITEM_PIPELINES = {
     'testing_task.pipelines.StatusBuildPipeline': 100,
     'testing_task.pipelines.ProcentSaleBuildPipeline': 200
 }
+
+SPIDER_MIDDLEWARES = {
+    'testing_task.middlewares.StatusBarSpiderMiddleware': 500
+}

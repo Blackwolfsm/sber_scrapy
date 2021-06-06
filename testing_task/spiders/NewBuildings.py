@@ -2,12 +2,15 @@ import json
 import logging
 from json.decoder import JSONDecodeError
 from typing import Collection
+from warnings import simplefilter
 
 import scrapy
 from scrapy.http import Request, request
 from scrapy.utils.log import configure_logging
 from scrapy.exceptions import CloseSpider
 from scrapy.http.response.html import HtmlResponse
+from scrapy import signals
+from tqdm import tqdm
 
 from testing_task.items import BuildItem
 
@@ -35,6 +38,7 @@ class NewbuildingsSpider(scrapy.Spider):
            если обнаруживает стройку со статусом '0'(Строится), то
            запускает дополнительный парсинг для элемента.
         """
+        self.pbar.update()
         collect = collect or 0
         data_json = self.response_to_json(response)
         total = data_json.get('data', {}).get('total')
@@ -60,11 +64,11 @@ class NewbuildingsSpider(scrapy.Spider):
                 item['avg_price'] = 'NULL'
                 item['kadastr_nums'] = 'NULL'
                 yield item
-        # if collect < total:
-        #     request = Request(url=OBJECTS_URL.format(collect=collect),
-        #                       callback=self.parse,
-        #                       cb_kwargs=dict(collect=collect))
-        #     yield request
+        if collect < total:
+            request = Request(url=OBJECTS_URL.format(collect=collect),
+                              callback=self.parse,
+                              cb_kwargs=dict(collect=collect))
+            yield request
     
     def parse_check_house(self, response, item):
         """Парсит страницу проверки новостройки, добавляет 

@@ -1,51 +1,24 @@
 from scrapy import signals
-
+from tqdm import tqdm
 
 from itemadapter import is_item, ItemAdapter
 
 
-class TestingTaskSpiderMiddleware:
+class StatusBarSpiderMiddleware:
 
     @classmethod
     def from_crawler(cls, crawler):
         s = cls()
         crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
+        crawler.signals.connect(s.spider_closed, signal=signals.spider_closed)
         return s
 
-    def process_spider_input(self, response, spider):
-        return None
-
-    def process_spider_output(self, response, result, spider):
-        for i in result:
-            yield i
-
-    def process_spider_exception(self, response, exception, spider):
-        pass
-
-    def process_start_requests(self, start_requests, spider):
-        for r in start_requests:
-            yield r
-
     def spider_opened(self, spider):
-        spider.logger.info('Spider opened: %s' % spider.name)
+        self.pbar = tqdm()
+        self.pbar.clear()
+        self.pbar.write(f'Паук {spider.name} начал работу')
 
-
-class TestingTaskDownloaderMiddleware:
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        s = cls()
-        crawler.signals.connect(s.spider_opened, signal=signals.spider_opened)
-        return s
-
-    def process_request(self, request, spider):
-        return None
-
-    def process_response(self, request, response, spider):
-        return response
-
-    def process_exception(self, request, exception, spider):
-        pass
-
-    def spider_opened(self, spider):
-        spider.logger.info('Spider opened: %s' % spider.name)
+    def spider_closed(self, spider):
+        self.pbar.clear()
+        self.pbar.write(f'Паук {spider.name} закончил работу')
+        self.pbar.close()
