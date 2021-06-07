@@ -1,8 +1,6 @@
 from scrapy import signals
 from tqdm import tqdm
 
-from itemadapter import is_item, ItemAdapter
-
 
 class StatusBarSpiderMiddleware:
 
@@ -25,6 +23,7 @@ class StatusBarSpiderMiddleware:
         self.pbar.write(f'Собрано {self.total_item} элементов')
         self.pbar.write(f'Паук {spider.name} закончил работу')
         self.pbar.close()
+
 
     def process_spider_input(self, response, spider):
         self.pbar.update()

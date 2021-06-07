@@ -1,16 +1,11 @@
 import json
 import logging
 from json.decoder import JSONDecodeError
-from typing import Collection
-from warnings import simplefilter
 
 import scrapy
-from scrapy.http import Request, request
-from scrapy.utils.log import configure_logging
+from scrapy.http import Request
 from scrapy.exceptions import CloseSpider
 from scrapy.http.response.html import HtmlResponse
-from scrapy import signals
-from tqdm import tqdm
 
 from testing_task.items import BuildItem
 
