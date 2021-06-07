@@ -1,7 +1,5 @@
 import logging
 
-from scrapy.exceptions import DropItem
-
 from itemadapter import ItemAdapter
 
 
@@ -56,6 +54,6 @@ class ProcentSaleBuildPipeline:
             else:
                 logging.warning(
                     f'При обработке новостройки с id {item["id_from_site"]} '
-                        'не удалось найти "распроданность квартир"'
+                    f'не удалось найти "распроданность квартир"'
                 )
         return item
