@@ -1,5 +1,5 @@
 LOG_ENABLE = True
-LOG_FILE = 'logs.log'
+LOG_FILE = 'errors.log'
 
 BOT_NAME = 'testing_task'
 

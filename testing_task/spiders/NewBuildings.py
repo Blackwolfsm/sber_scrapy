@@ -38,7 +38,6 @@ class NewbuildingsSpider(scrapy.Spider):
            если обнаруживает стройку со статусом '0'(Строится), то
            запускает дополнительный парсинг для элемента.
         """
-        self.pbar.update()
         collect = collect or 0
         data_json = self.response_to_json(response)
         total = data_json.get('data', {}).get('total')
@@ -58,7 +57,6 @@ class NewbuildingsSpider(scrapy.Spider):
                     cb_kwargs=dict(item=item)
                 )
                 yield request
-
             else:
                 item['sale_apartments'] = 'NULL'
                 item['avg_price'] = 'NULL'
